@@ -83,7 +83,7 @@ public class APIManagerClient {
      */
     public List<APIInfo> getAllPublishedAPIs(String storeEndpoint, String userName, char[] password,
                                              String tenantDomain) throws Exception {
-        List<APIInfo> apiList = new ArrayList<>();
+        List<APIInfo> apiList = new ArrayList<APIInfo>();
 
         String tenantUserName = userName;
 

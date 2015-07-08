@@ -9,10 +9,18 @@
             <unpack>false</unpack>
             <outputDirectory>/lib</outputDirectory>
             <includes>
-                <include>org.glassfish:javax.json</include>
                 <include>com.smartbear:swagger4j</include>
-                <include>com.wordnik:swagger-core</include>
-                <include>com.wordnik:swagger-models</include>
+                <include>org.glassfish:javax.json</include>
+                <include>javax.json:javax.json-api</include>
+                <include>commons-lang:commons-lang</include>
+                <include>io.swagger:swagger-parser</include>
+                <include>io.swagger:swagger-core</include>
+                <include>io.swagger:swagger-models</include>
+                <include>com.fasterxml.jackson.core:jackson-annotations</include>
+                <include>com.fasterxml.jackson.core:jackson-core</include>
+                <include>com.fasterxml.jackson.core:jackson-databind</include>
+                <include>com.fasterxml.jackson.datatype:jackson-datatype-joda</include>
+                <include>com.fasterxml.jackson.dataformat:jackson-dataformat-yaml</include>
                 <include>org.apache.http*</include>
             </includes>
         </dependencySet>
@@ -25,8 +33,8 @@
             </includes>
             <unpackOptions>
                 <excludes>
-                    <exclude>com\smartbear\swagger\PluginConfig.class</exclude>
-                    <exclude>com\smartbear\swagger\*Action*.class</exclude>
+                    <exclude>com/smartbear/swagger/PluginConfig.class</exclude>
+                    <exclude>com/smartbear/swagger/*Action*.class</exclude>
                 </excludes>
             </unpackOptions>
         </dependencySet>

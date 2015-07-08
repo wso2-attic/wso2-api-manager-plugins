@@ -58,7 +58,6 @@ public class WSO2APIManagerWorkspace extends AbstractSoapUIAction<WorkspaceImpl>
         super("Create Project from WSO2 API Manager", "Creates new project from API specifications on the API Store");
     }
 
-    @Override
     public void perform(WorkspaceImpl workspace, Object params) {
         final XFormDialog dialog = ADialogBuilder.buildDialog(ProjectModel.class);
 
@@ -66,7 +65,6 @@ public class WSO2APIManagerWorkspace extends AbstractSoapUIAction<WorkspaceImpl>
          * The purpose of this listener is to validate the API Store URL and the Project name upon submitting the form
          */
         dialog.getFormField(ProjectModel.API_STORE_URL).addFormFieldValidator(new XFormFieldValidator() {
-            @Override
             public ValidationMessage[] validateField(XFormField formField) {
                 if (StringUtils.isNullOrEmpty(dialog.getValue(ProjectModel.API_STORE_URL))) {
                     return new ValidationMessage[]{new ValidationMessage(INVALID_API_STORE_URL, dialog.getFormField

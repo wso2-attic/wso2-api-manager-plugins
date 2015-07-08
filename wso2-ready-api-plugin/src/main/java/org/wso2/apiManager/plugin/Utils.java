@@ -143,7 +143,7 @@ public class Utils {
                 int row = table.rowAtPoint(p);
                 int col = table.columnAtPoint(p);
 
-                if(row == -1 || col == -1){
+                if (row == -1 || col == -1) {
                     return;
                 }
                 try {
@@ -158,10 +158,10 @@ public class Utils {
         apiListFormField.addFormFieldValidator(new XFormFieldValidator() {
             @Override
             public ValidationMessage[] validateField(XFormField xFormField) {
-                if(table.getSelectedRowCount() <= 0){
-                    return new ValidationMessage[]{new ValidationMessage(
-                            HelpMessageConstants.API_SELECTION_VALIDATION_MSG,
-                            dialog.getFormField(APIModel.API_LIST))};
+                if (table.getSelectedRowCount() <= 0) {
+                    return new ValidationMessage[]{new ValidationMessage(HelpMessageConstants
+                                                                                 .API_SELECTION_VALIDATION_MSG,
+                                                                         dialog.getFormField(APIModel.API_LIST))};
                 }
                 return new ValidationMessage[0];
             }
@@ -199,10 +199,10 @@ public class Utils {
             }
             APISelectionResult selectionResult = new APISelectionResult();
             selectionResult.setApiInfoList(selectedAPIs);
-            selectionResult.setTestSuiteSelected(
-                    APIConstants.RADIO_BUTTON_OPTIONS_YES.equals(testSuiteSelection.getValue()));
-            selectionResult.setLoadTestSelected(
-                    APIConstants.RADIO_BUTTON_OPTIONS_YES.equals(loadTestSelection.getValue()));
+            selectionResult.setTestSuiteSelected(APIConstants.RADIO_BUTTON_OPTIONS_YES.equals(testSuiteSelection
+                                                                                                      .getValue()));
+            selectionResult.setLoadTestSelected(APIConstants.RADIO_BUTTON_OPTIONS_YES.equals(loadTestSelection
+                                                                                                     .getValue()));
 
             return selectionResult;
         } else {
@@ -220,10 +220,26 @@ public class Utils {
      * @return an array of RestService
      */
     public static RestService[] importAPItoProject(APIInfo apiLink, WsdlProject project) {
-//        PluginConfig.disableSslSecurity();
-        SwaggerImporter importer = SwaggerUtils.createSwaggerImporter(apiLink.getSwaggerDocLink(), project);
-        SoapUI.log("Importing Swagger from [" + apiLink.getName() + "]");
-        return importer.importSwagger(apiLink.getSwaggerDocLink());
+        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader(Utils.class.getClassLoader());
+
+        try {
+            //        PluginConfig.disableSslSecurity();
+            SwaggerImporter importer = SwaggerUtils.createSwaggerImporter(apiLink.getSwaggerDocLink(), project);
+            SoapUI.log("Importing Swagger from [" + apiLink.getName() + "]");
+
+            if (importer.getClass().getName().contains("Swagger2Importer")) {
+                project.setPropertyValue(apiLink.getSwaggerDocLink(), "2.0");
+            } else if (importer.getClass().getName().contains("Swagger1XImporter")) {
+                project.setPropertyValue(apiLink.getSwaggerDocLink(), "1.x");
+            } else {
+               SoapUI.log("Unable to determine the Swagger version of [" + apiLink.getSwaggerDocLink() + "]" );
+            }
+
+            return importer.importSwagger(apiLink.getSwaggerDocLink());
+        } finally {
+            Thread.currentThread().setContextClassLoader(contextClassLoader);
+        }
     }
 
     private static Object[][] convertToTableData(List<APIInfo> apiList) {
