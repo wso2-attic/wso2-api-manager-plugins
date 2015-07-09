@@ -31,6 +31,7 @@ import com.eviware.x.form.XFormDialog;
 import com.eviware.x.form.XFormField;
 import com.eviware.x.form.XFormFieldValidator;
 import com.eviware.x.form.support.ADialogBuilder;
+import com.eviware.x.impl.swing.JComboBoxFormField;
 import org.wso2.apiManager.plugin.Utils;
 import org.wso2.apiManager.plugin.dataObjects.APIExtractionResult;
 import org.wso2.apiManager.plugin.dataObjects.APIInfo;
@@ -86,9 +87,12 @@ public class WSO2APIManagerWorkspace extends AbstractSoapUIAction<WorkspaceImpl>
                 if (storeUrl == null) {
                     return new ValidationMessage[]{new ValidationMessage(INVALID_API_STORE_URL, formField)};
                 }
-                listExtractionResult = APIExtractorWorker.downloadAPIList(storeUrl.toString(), dialog.getValue
-                        (ProjectModel.USER_NAME), dialog.getValue(ProjectModel.PASSWORD).toCharArray(), dialog
-                                                                                  .getValue(ProjectModel.TENANT_DOMAIN));
+                listExtractionResult =
+                        APIExtractorWorker.downloadAPIList(storeUrl.toString(),
+                                                           dialog.getValue(ProjectModel.USER_NAME),
+                                                           dialog.getValue(ProjectModel.PASSWORD).toCharArray(),
+                                                           dialog.getValue(ProjectModel.TENANT_DOMAIN),
+                                                           dialog.getValue(ProjectModel.PRODUCT_VERSION));
                 if (StringUtils.hasContent(listExtractionResult.getError())) {
                     return new ValidationMessage[]{new ValidationMessage(listExtractionResult.getError(), formField)};
                 }

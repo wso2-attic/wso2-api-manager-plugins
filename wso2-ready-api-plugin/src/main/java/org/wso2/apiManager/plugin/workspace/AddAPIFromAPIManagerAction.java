@@ -30,6 +30,7 @@ import com.eviware.x.form.XFormDialog;
 import com.eviware.x.form.XFormField;
 import com.eviware.x.form.XFormFieldValidator;
 import com.eviware.x.form.support.ADialogBuilder;
+import com.eviware.x.impl.swing.JComboBoxFormField;
 import org.wso2.apiManager.plugin.ActionGroups;
 import org.wso2.apiManager.plugin.Utils;
 import org.wso2.apiManager.plugin.dataObjects.APIExtractionResult;
@@ -60,6 +61,7 @@ public class AddAPIFromAPIManagerAction extends AbstractSoapUIAction<WsdlProject
         APIExtractionResult listExtractionResult = null;
         if (dialog == null) {
             dialog = ADialogBuilder.buildDialog(ImportModel.class);
+
             dialog.getFormField(ImportModel.API_STORE_URL).addFormFieldValidator(new XFormFieldValidator() {
                 @Override
                 public ValidationMessage[] validateField(XFormField formField) {
@@ -89,6 +91,7 @@ public class AddAPIFromAPIManagerAction extends AbstractSoapUIAction<WsdlProject
             String userName = dialog.getValue(ImportModel.USER_NAME);
             char[] password = dialog.getValue(ImportModel.PASSWORD).toCharArray();
             String tenantDomain = dialog.getValue(ImportModel.TENANT_DOMAIN);
+            String productVersion = dialog.getValue(ImportModel.PRODUCT_VERSION);
             if (urlString == null) {
                 return;
             }
@@ -97,7 +100,8 @@ public class AddAPIFromAPIManagerAction extends AbstractSoapUIAction<WsdlProject
                 UISupport.showErrorMessage(INVALID_API_STORE_URL);
                 continue;
             }
-            listExtractionResult = APIExtractorWorker.downloadAPIList(url.toString(), userName, password, tenantDomain);
+            listExtractionResult = APIExtractorWorker.downloadAPIList(url.toString(), userName, password,
+                                                                      tenantDomain, productVersion);
             if (listExtractionResult.isCanceled()) {
                 return;
             }

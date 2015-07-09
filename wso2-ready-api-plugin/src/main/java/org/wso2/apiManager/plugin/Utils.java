@@ -224,7 +224,6 @@ public class Utils {
         Thread.currentThread().setContextClassLoader(Utils.class.getClassLoader());
 
         try {
-            //        PluginConfig.disableSslSecurity();
             SwaggerImporter importer = SwaggerUtils.createSwaggerImporter(apiLink.getSwaggerDocLink(), project);
             SoapUI.log("Importing Swagger from [" + apiLink.getName() + "]");
 
