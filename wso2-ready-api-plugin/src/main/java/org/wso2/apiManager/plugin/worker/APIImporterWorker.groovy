@@ -85,6 +85,8 @@ public class APIImporterWorker implements Worker {
 
     @Override
     public Object construct(XProgressMonitor monitor) {
+        String reg = "((\\/\\*)|\\/)\$";
+
         for (APIInfo apiInfo : links) {
             if (cancelled) {
                 break;
@@ -119,6 +121,8 @@ public class APIImporterWorker implements Worker {
                         }
                         List<RestResource> resources = restService.getAllResources();
                         for (RestResource resource : resources) {
+
+                            resource.setPath(resource.getPath().replaceAll(reg, ""));
 
                             // Add a test case for the newly created one
                             if (isTestSuiteSelected) {
