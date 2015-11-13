@@ -82,8 +82,8 @@ public class APIManagerClient {
      * @throws java.lang.Exception if any error occurs
      */
     public List<APIInfo> getAllPublishedAPIs(String storeEndpoint, String userName, char[] password,
-                                             String tenantDomain) throws Exception {
-        List<APIInfo> apiList = new ArrayList<>();
+                                             String tenantDomain, String productVersion) throws Exception {
+        List<APIInfo> apiList = new ArrayList<APIInfo>();
 
         String tenantUserName = userName;
 
@@ -145,7 +145,9 @@ public class APIManagerClient {
                         apiInfo.setProvider(apiProvider);
                         apiInfo.setVersion(version);
                         apiInfo.setDescription(description);
-                        apiInfo.setSwaggerDocLink(getSwaggerDocLink(storeEndpoint, apiName, version, apiProvider));
+                        apiInfo.setSwaggerDocLink(getSwaggerDocLink(storeEndpoint, apiName, version, apiProvider,
+                                                                    productVersion));
+                        apiInfo.setProductVersion(productVersion);
 
                         apiList.add(apiInfo);
                     }
@@ -270,20 +272,26 @@ public class APIManagerClient {
      * This method returns the swagger doc link of the API
      * Ex:- https://localhost:9443/store/api-docs/janaka%40janaka.com/WikipediaAPI/1.0.0
      *
-     * @param baseUrl     The endpoint of the API Store
-     * @param apiName     The name of the API
-     * @param apiVersion  The version of the API
-     * @param apiProvider The provider of the API
+     * @param baseUrl        The endpoint of the API Store
+     * @param apiName        The name of the API
+     * @param apiVersion     The version of the API
+     * @param apiProvider    The provider of the API
+     * @param productVersion The version of the API Manager
      * @return The swagger doc link of the API
      */
-    private String getSwaggerDocLink(String baseUrl, String apiName, String apiVersion, String apiProvider) {
+    private String getSwaggerDocLink(String baseUrl, String apiName, String apiVersion, String apiProvider,
+                                     String productVersion) {
         if (baseUrl.endsWith("/")) {
             baseUrl = baseUrl.substring(0, baseUrl.lastIndexOf('/'));
         }
-        try {
-            apiProvider = URLEncoder.encode(apiProvider, APIConstants.UTF_8);
-        } catch (UnsupportedEncodingException e) {
-            SoapUI.logError(e, "Error while generating the api-docs URL ");
+        if ("1.8.0".equals(productVersion)) {
+            try {
+                apiProvider = URLEncoder.encode(apiProvider, APIConstants.UTF_8);
+            } catch (UnsupportedEncodingException e) {
+                SoapUI.logError(e, "Error while generating the api-docs URL ");
+            }
+        }else if("1.9.x".equals(productVersion)){
+            apiProvider = apiProvider.replace("@","-AT-");
         }
         return baseUrl + "/api-docs/" + apiProvider + "/" + apiName + "/" + apiVersion;
     }

@@ -27,6 +27,7 @@ public class APIInfo {
     private String provider;
     private String description;
     private String swaggerDocLink;
+    private String productVersion;
 
     public String getName() {
         return name;
@@ -66,5 +67,13 @@ public class APIInfo {
 
     public void setSwaggerDocLink(String swaggerDocLink) {
         this.swaggerDocLink = swaggerDocLink;
+    }
+
+    public String getProductVersion() {
+        return productVersion;
+    }
+
+    public void setProductVersion(String productVersion) {
+        this.productVersion = productVersion;
     }
 }

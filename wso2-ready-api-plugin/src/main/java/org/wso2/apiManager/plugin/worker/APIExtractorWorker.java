@@ -38,21 +38,23 @@ public class APIExtractorWorker implements Worker {
     private String userName;
     private char[] password;
     private String tenantDomain;
+    private String productVersion;
 
     private String apiRetrievingError = null;
 
-    public APIExtractorWorker(String url, String userName, char[] password, String tenantDomain,
+    public APIExtractorWorker(String url, String userName, char[] password, String tenantDomain, String productVersion,
                               XProgressDialog waitDialog) {
         this.waitDialog = waitDialog;
         this.url = url;
         this.userName = userName;
         this.password = password.clone(); // This is to fix findbugs Malicious code vulnerability
         this.tenantDomain = tenantDomain;
+        this.productVersion = productVersion;
     }
 
     public static APIExtractionResult downloadAPIList(String url, String userName, char[] password,
-                                                      String tenantDomain) {
-        APIExtractorWorker worker = new APIExtractorWorker(url, userName, password, tenantDomain, UISupport
+                                                      String tenantDomain, String productVersion) {
+        APIExtractorWorker worker = new APIExtractorWorker(url, userName, password, tenantDomain, productVersion, UISupport
                 .getDialogs().createProgressDialog("Getting the list of APIs", 0, "", true));
         try {
             worker.waitDialog.run(worker);
@@ -68,7 +70,7 @@ public class APIExtractorWorker implements Worker {
     public Object construct(XProgressMonitor xProgressMonitor) {
         try {
             result.setApiList(APIManagerClient.getInstance().getAllPublishedAPIs(url, userName, password,
-                                                                                 tenantDomain));
+                                                                                 tenantDomain, productVersion));
         } catch (Exception e) {
             SoapUI.logError(e);
             apiRetrievingError = e.getMessage();

@@ -50,4 +50,9 @@ public interface ProjectModel {
             type = AField.AFieldType.STRING)
     public final static String TENANT_DOMAIN = "Tenant Domain";
 
+    @AField(name = "API Manager Version",
+            description = "The version of the API Manager that is been used",
+            type = AField.AFieldType.COMBOBOX, values = {"1.9.x", "1.8.0"})
+    public final static String PRODUCT_VERSION = "API Manager Version";
+
 }
