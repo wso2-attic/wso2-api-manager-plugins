@@ -32,7 +32,7 @@ import javax.net.ssl.X509TrustManager;
 import java.security.GeneralSecurityException;
 import java.security.cert.X509Certificate;
 
-@PluginConfiguration(groupId = "org.wso2.plugins", name = "WSO2 API Manager Plugin", version = "1.0.1",
+@PluginConfiguration(groupId = "org.wso2.plugins", name = "WSO2 API Manager Plugin", version = "1.0.2",
         autoDetect = true, description = "Plugin that supports integration with WSO2 API Manager",
         infoUrl = "")
 public class PluginConfig extends PluginAdapter {
