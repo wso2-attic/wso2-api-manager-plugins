@@ -290,7 +290,7 @@ public class APIManagerClient {
             } catch (UnsupportedEncodingException e) {
                 SoapUI.logError(e, "Error while generating the api-docs URL ");
             }
-        }else if("1.9.x".equals(productVersion)){
+        } else {
             apiProvider = apiProvider.replace("@","-AT-");
         }
         return baseUrl + "/api-docs/" + apiProvider + "/" + apiName + "/" + apiVersion;
