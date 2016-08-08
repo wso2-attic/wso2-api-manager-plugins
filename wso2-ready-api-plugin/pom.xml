@@ -5,7 +5,7 @@
     <name>SoapUI Action Plugin</name>
     <artifactId>apiManager-plugin</artifactId>
     <groupId>org.wso2</groupId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 
     <repositories>
         <repository>
