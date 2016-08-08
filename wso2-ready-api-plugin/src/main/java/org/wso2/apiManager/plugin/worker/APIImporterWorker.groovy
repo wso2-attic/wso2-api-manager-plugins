@@ -110,6 +110,21 @@ public class APIImporterWorker implements Worker {
                         // We change the restServices name to the apiName/apiVersion
                         restService.setName(constructServiceName(apiInfo, restService.getName(), isSwagger2));
 
+                        // We have to prepare the endpoints. The default endpoint selection would be http. We are
+                        // changing that to https.
+
+                        String[] endpoints = restService.getEndpoints();
+                        String httpsEndpoint = null;
+                        for (int i = 0; i < endpoints.length; i++) {
+                            String endpoint = endpoints[i];
+                            if(endpoint.startsWith("https")){
+                                restService.getConfig().getEndpoints().removeEndpoint(i);
+                                restService.getConfig().getEndpoints().insertEndpoint(0, endpoint);
+                                httpsEndpoint = endpoint;
+                                break;
+                            }
+                        }
+
                         if (isTestSuiteSelected) {
                             //Check to see if the default test suite is there
                             testSuite = project.getTestSuiteByName(restService.getName());
@@ -143,6 +158,10 @@ public class APIImporterWorker implements Worker {
                                     // get_repos/{user_name}/{repo_name} - default_request
                                     restRequest.setName(constructRequestName(method.getName()));
 
+                                    // we set the https as the default endpoint of each request
+                                    if(httpsEndpoint != null){
+                                        restRequest.setEndpoint(httpsEndpoint);
+                                    }
                                     // Add a test step for each request
                                     if (isTestSuiteSelected && testCase != null) {
                                         TestStepConfig testStepConfig = RestRequestStepFactory.createConfig(restRequest, restRequest.getName());
