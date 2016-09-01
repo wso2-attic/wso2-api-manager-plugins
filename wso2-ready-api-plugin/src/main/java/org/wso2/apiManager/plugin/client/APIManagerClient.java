@@ -45,6 +45,7 @@ import org.wso2.apiManager.plugin.dataObjects.APIInfo;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -111,11 +112,11 @@ public class APIManagerClient {
                 params.add(new BasicNameValuePair("tenant", tenantDomain));
                 params.add(new BasicNameValuePair("start", Integer.toString(0)));
                 params.add(new BasicNameValuePair("end", Integer.toString(Integer.MAX_VALUE)));
-                httpPost.setEntity(new UrlEncodedFormEntity(params, APIConstants.UTF_8));
+                httpPost.setEntity(new UrlEncodedFormEntity(params, StandardCharsets.UTF_8));
 
                 HttpResponse response = httpClient.execute(httpPost, httpContext);
                 HttpEntity entity = response.getEntity();
-                String responseString = EntityUtils.toString(entity, APIConstants.UTF_8);
+                String responseString = EntityUtils.toString(entity, StandardCharsets.UTF_8);
 
                 String[] errorSection = responseString.split(",");
                 boolean isError = Boolean.parseBoolean(errorSection[0].split(":")[1].split("}")[0].trim());
@@ -183,11 +184,11 @@ public class APIManagerClient {
             params.add(new BasicNameValuePair(APIConstants.API_ACTION, APIConstants.API_LOGIN_ACTION));
             params.add(new BasicNameValuePair(APIConstants.API_STORE_LOGIN_USERNAME, userName));
             params.add(new BasicNameValuePair(APIConstants.API_STORE_LOGIN_PASSWORD, new String(password)));
-            httpPost.setEntity(new UrlEncodedFormEntity(params, APIConstants.UTF_8));
+            httpPost.setEntity(new UrlEncodedFormEntity(params, StandardCharsets.UTF_8));
 
             HttpResponse response = httpClient.execute(httpPost, httpContext);
             HttpEntity entity = response.getEntity();
-            String responseString = EntityUtils.toString(entity, APIConstants.UTF_8);
+            String responseString = EntityUtils.toString(entity, StandardCharsets.UTF_8);
 
             String[] errorSection = responseString.split(",");
             boolean isError = Boolean.parseBoolean(errorSection[0].split(":")[1].split("}")[0].trim());
@@ -286,7 +287,7 @@ public class APIManagerClient {
         }
         if ("1.8.0".equals(productVersion)) {
             try {
-                apiProvider = URLEncoder.encode(apiProvider, APIConstants.UTF_8);
+                apiProvider = URLEncoder.encode(apiProvider, StandardCharsets.UTF_8.name());
             } catch (UnsupportedEncodingException e) {
                 SoapUI.logError(e, "Error while generating the api-docs URL ");
             }
