@@ -30,7 +30,6 @@ Once installed there will have two ways to import an API from a WSO2 API Store:
 In either case you will be prompted for the URL of the WSO2 API Store that exposes API metadata, the user name, tenant domain and the password to login to the API Store.
 
 Note:
-  * Both HTTP and HTTPS URLs can be used to access the API Store. If you are trying to connect to a WSO2 API Store from the default distribution, note that you need to install "SSL Workaround Plugin" to avoild certificate issues that arises due to the self signed certificate of the default distribution. 
   * The user name should be the tenant aware user name(it should NOT contain the tenant domain).
   * To access the super tenant store, there is no need to fill in the tenant domain. If left blank/empty the plugin will try to connect to the super tenant store using the given credentials. 
 
