@@ -17,6 +17,11 @@
             <name>Central Maven2 Repository</name>
             <url>http://repo1.maven.org/maven2</url>
         </repository>
+        <repository>
+            <id>eviware</id>
+            <name>Eviware Maven2 Repository</name>
+            <url>http://www.eviware.com/repository/maven2</url>
+        </repository>
     </repositories>
 
 
@@ -34,8 +39,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.smartbear</groupId>
-            <artifactId>swagger4j</artifactId>
+            <groupId>com.smartbear.soapui.plugins</groupId>
+            <artifactId>soapui-swagger-plugin</artifactId>
             <version>${swagger4j.version}</version>
         </dependency>
 
@@ -120,9 +125,9 @@
     </build>
     <properties>
         <swagger.version>1.5.8</swagger.version>
-        <swagger4j.version>1.0-beta6</swagger4j.version>
+        <swagger4j.version>2.5.3</swagger4j.version>
         <gmaven-runtime.version>1.5</gmaven-runtime.version>
-        <ready-api-soapui-pro.version>1.7.0</ready-api-soapui-pro.version>
+        <ready-api-soapui-pro.version>2.2.0</ready-api-soapui-pro.version>
         <soapui-swagger-plugin.version>2.3.1</soapui-swagger-plugin.version>
         <swagger-inflector.version>1.0.6</swagger-inflector.version>
         <httpclient.version>4.3.6</httpclient.version>
